@@ -1,25 +1,24 @@
-import AppLayout from "./components/AppLayout";
-import { Routes, Route } from "react-router-dom";
-import Task from "./components/Task";
-import { Toaster } from "react-hot-toast";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './components/auth/AuthContext';
+import Home from './pages/Home';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import Dashboard from './pages/Dashboard';
+import { Toaster } from 'react-hot-toast';
+
 function App() {
-  console.log('render app..')
   return (
-    <AppLayout>
-      <Toaster
-        position="top-right"
-        gutter={8}
-      />
-      <Routes>
-        <Route path="/:projectId" element={<Task />} />
-        <Route path="/" element={
-          <div className="flex flex-col items-center w-full pt-10">
-            <img src="./image/welcome.svg" className="w-5/12" alt="" />
-            <h1 className="text-lg text-gray-600">Select or create new project</h1>
-          </div>
-        } />
-      </Routes>
-    </AppLayout>
+    <AuthProvider>
+      <Toaster position="top-right" />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard/:projectId" element={<Dashboard />} /> {/* Include projectId in the route */}
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
